@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# chkconfig: 2345 99 06
+# description: enable or disable zabbix host status.
+
+servicename='zabbix-host-controller'
+lock_file="/var/lock/subsys/${servicename}"
+path_to_script=/usr/local/zabbix-host-controller/bin
+
+start() {
+    python ${path_to_script}/zabbix_enable.py
+    touch ${lock_file}
+    echo "zabbix-host-control start: [OK]"
+    return 0
+}
+stop() {
+    python ${path_to_script}/zabbix_disable.py
+    rm -f ${lock_file}
+    echo "zabbix-host-control stop: [OK]"
+    return 0
+}
+
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  *) break ;;
+esac
