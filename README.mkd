@@ -1,0 +1,30 @@
+zabbix-host-controller
+============================================================
+
+Sample program for controlling host status on Zabbix.
+
+Feature
+------------------------------------------------------------
+
+* Enable or disable host status as runlevel.
+
+### will be
+
+* Registerd new host on bootstraping, like as AWS Autoscaling.
+* Attach templates that the host needs.
+* Set macro that the host needs.
+* Add graphs of hosts to the screen.
+
+Installation
+------------------------------------------------------------
+
+```
+$ cd /usr/local/src
+$ git clone https://github.com/uorat/zabbix-host-controller.git
+$ cp /usr/local/src/zabbix-host-controller/example/zabbix-host-controller.init /etc/init.d/zabbix-host-controller
+```
+Support
+------------------------------------------------------------
+
+* AmazonLinux
+* CentOS 6
