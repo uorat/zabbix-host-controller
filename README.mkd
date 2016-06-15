@@ -15,16 +15,59 @@ Feature
 * Set macro that the host needs.
 * Add graphs of hosts to the screen.
 
-Installation
+Setup
 ------------------------------------------------------------
 
-```
+### Installation
+
+```bash
 $ cd /usr/local/src
 $ git clone https://github.com/uorat/zabbix-host-controller.git
 $ cp /usr/local/src/zabbix-host-controller/example/zabbix-host-controller.init /etc/init.d/zabbix-host-controller
+$ chkconfig zabbix-host-controller on
 ```
+
+### Configuration
+
+Edit zabbix\_config.php for your environment.
+
+```python
+class ZabbixConfig:
+    ZABBIX_API_URL = "http://your-zabbix.local/zabbix/api_jsonrpc.php"
+    HEADERS = {
+        "Content-Type": "application/json"
+    }
+    USER = "Admin"
+    PASSWORD = "zabbix"
+```
+
+Usage
+------------------------------------------------------------
+
+### Enable host
+
+```
+$ /etc/init.d/zabbix-host-controller start
+   => host: your-host01, hostid: 11407, status: 1
+   => status update : hostid: 11407, result: True
+   => host: your-host01, hostid: 11407, status: 0
+zabbix-host-control start: [OK]
+```
+
+### Disable host
+
+```
+$ /etc/init.d/zabbix-host-controller stop
+   => host: your-host01, hostid: 11407, status: 0
+   => status update : hostid: 11407, result: True
+   => host: your-host01, hostid: 11407, status: 1
+zabbix-host-control stop: [OK]
+```
+
 Support
 ------------------------------------------------------------
 
-* AmazonLinux
-* CentOS 6
+* OS
+    * AmazonLinux
+    * CentOS 6
+* Zabbix v2.4
