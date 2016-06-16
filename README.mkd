@@ -29,7 +29,7 @@ $ chkconfig zabbix-host-controller on
 
 ### Configuration
 
-Edit zabbix\_config.php for your environment.
+Edit zabbix\_config.py for your environment.
 
 ```python
 class ZabbixConfig:
