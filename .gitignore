@@ -1,3 +1,4 @@
 .sw*
 *.pyc
-./conf/zabbix_config.py
+conf/zabbix_config.py
+example/config.sh

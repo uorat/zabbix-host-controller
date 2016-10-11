@@ -1,5 +1,5 @@
 [Unit]
-Description=Register or deregister to zabbix for systemd
+Description=Register or disable to zabbix for systemd
 After=update-hostname.service
 Before=zabbix-agent.service
 

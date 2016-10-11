@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# Configuration of update_hostname script
+
+readonly PREFIX="web00"
+readonly SRC_INSTANCE_ID="i-xxxxxxxxxxxxxxxxx"
