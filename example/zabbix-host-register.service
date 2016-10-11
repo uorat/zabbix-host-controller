@@ -1,0 +1,14 @@
+[Unit]
+Description=Register or deregister to zabbix for systemd
+After=update-hostname.service
+Before=zabbix-agent.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/zabbix-host-controller/bin/zabbix_register.py
+ExecStop=/usr/local/zabbix-host-controller/bin/zabbix_disable.py
+TimeoutSec=0
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
