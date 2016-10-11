@@ -11,10 +11,13 @@ authid    = zabbix.login()
 
 is_exist = zabbix.is_exists(authid, hostname)
 if is_exist:
-    print "already exist [hostid: {hostid}, hostname: {hostname}]".format(
+    print "already exist, so enable status [hostid: {hostid}, hostname: {hostname}]".format(
         hostid    = is_exist,
         hostname  = hostname
     )
+    hostid = zabbix.get_hostid(authid, hostname)
+    zabbix.enable_host(authid, hostid)
+    hostid = zabbix.get_hostid(authid, hostname)
 else:
     group_ids = zabbix.get_hostgroups(authid, hostname)
     template_ids  = zabbix.get_templates(authid, hostname)
@@ -27,3 +30,4 @@ else:
         hostid    = hostid,
         hostname  = hostname
     )
+    hostid = zabbix.get_hostid(authid, hostname)
