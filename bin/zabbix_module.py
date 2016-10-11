@@ -155,7 +155,13 @@ class ZabbixApi:
     def __get_group(self, hostname):
         """ get group name from hostname
         """
-        return ZabbixConfig.GROUP_MAPPING.get(re.sub('\d+', '', hostname))
+        return ZabbixConfig.GROUP_MAPPING.get(
+            re.sub(
+                '\d+',
+                '',
+                re.sub('-i-[\w]+', '', hostname)
+            )
+        )
 
     def __get_macro(self, key):
         """ get macros [key/value] from key
