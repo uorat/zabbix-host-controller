@@ -159,7 +159,11 @@ class ZabbixApi:
             re.sub(
                 '\d+',
                 '',
-                re.sub('-i-[\w]+', '', hostname)
+                re.sub(
+                    '-ip-\d+-\d+-\d+-\d+',
+                    '',
+                    re.sub('-i-[\w]+', '', hostname)
+                )
             )
         )
 

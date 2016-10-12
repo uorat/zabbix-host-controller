@@ -5,7 +5,7 @@ Before=rsyslog.service
 
 [Service]
 Type=oneshot
-ExecStart=/usr/local/zabbix-host-controller/example/update_hostname.sh
+ExecStart=/usr/local/zabbix-host-controller/example/update_hostname_instanceid.sh
 TimeoutSec=0
 
 [Install]

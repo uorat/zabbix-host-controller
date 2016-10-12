@@ -1,6 +1,6 @@
 [Unit]
 Description=Register or disable to zabbix for systemd
-After=update-hostname.service
+After=update-hostname-ip.service
 Before=zabbix-agent.service
 
 [Service]
