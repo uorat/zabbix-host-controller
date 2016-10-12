@@ -1,0 +1,12 @@
+[Unit]
+Description=Update Hosntame for AutoScaling
+After=network.target
+Before=rsyslog.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/zabbix-host-controller/example/update_hostname_ip.sh
+TimeoutSec=0
+
+[Install]
+WantedBy=multi-user.target
