@@ -7,57 +7,20 @@ class ZabbixConfig:
     USER = "Admin"
     PASSWORD = "zabbix"
 
-    GROUP_MAPPING = {
-        "hoge-prd-web"  : "web",
-        "hoge-stg-web"  : "web",
-        "hoge-dev-web"  : "web",
+    ZABBIX_HOSTGROUP = [
+        "Linux servers",
+        "Discovered hosts",
+    ]
 
-        "fuga-prd-api"  : "api",
-        "fuga-stg-api"  : "api",
-        "fuga-dev-api"  : "api",
+    ZABBIX_TEMPLATE = [
+        "Template OS Linux",
+        "Template App HTTP Service",
+    ]
 
-        "prd-db"        : "db",
-        "stg-db"        : "db",
-        "dev-db"        : "db",
-    }
+    ZABBIX_MACRO = [
+        { "macro": "{$WEB_SCENARIO_PATH}", "value": "/index.html" },
+    ]
 
-
-    ZABBIX_HOSTGROUP_MAPPING = {
-        "prd" : [ "Linux servers" ],
-        "stg" : [ "Linux servers", "Discovered hosts" ],
-        "dev" : [ "Linux servers", "Discovered hosts" ],
-
-        "web" : [ "web" ],
-        "api" : [ "api" ],
-        "db"  : [ "db" ],
-    }
-
-    ZABBIX_TEMPLATE_MAPPING = {
-        "web": [
-            "Template OS Linux",
-            "Template App HTTP Service",
-        ],
-        "api": [
-            "Template OS Linux",
-            "Template App HTTP Service",
-        ],
-        "db": [
-            "Template OS Linux",
-            "Template App MySQL",
-        ],
-    }
-
-    ZABBIX_MACRO_MAPPING = {
-        "web" : [
-            {
-                "macro": "{$WEB_SCENARIO_PATH}",
-                "value": "/index.html",
-            },
-        ],
-        "api" : [
-            {
-                "macro": "{$WEB_SCENARIO_PATH}",
-                "value": "/api/status",
-            },
-        ],
-    }
+    ZABBIX_OPTIONS = {
+         "jmx" : True,
+     }
