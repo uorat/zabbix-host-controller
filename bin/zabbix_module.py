@@ -65,7 +65,7 @@ class ZabbixApi:
         """
         return self.__update_host_status(authid, hostid, 1)
 
-    def create_host(self, authid, hostname, ip, group_ids, template_ids, macros = None):
+    def create_host(self, authid, hostname, ip, group_ids, template_ids, macros = None, options = None):
         """ create (Register) host
 
         Params:
@@ -82,7 +82,7 @@ class ZabbixApi:
         Refs:
             https://www.zabbix.com/documentation/2.4/manual/api/reference/usermacro/object#hosttemplate_level_macro
         """
-        return self.__create_host(authid, hostname, ip, group_ids, template_ids, macros)
+        return self.__create_host(authid, hostname, ip, group_ids, template_ids, macros, options)
 
     def is_exists(self, authid, hostname):
         """Check exist from hostname.
@@ -109,7 +109,25 @@ class ZabbixApi:
         """
         return self.__get_hostids(authid, hostname)[0]
 
-    def get_hostgroups(self, authid, hostname):
+    def get_hostgroups(self, authid):
+        """ get hostgroup ids
+
+        Params:
+            authid        (string)    : authenticated uid.
+
+        Returns:
+            ([integer])
+        """
+        hostgroup_ids = []
+
+        zbx_hostgroup = ZabbixConfig.ZABBIX_HOSTGROUP
+        if zbx_hostgroup is not None:
+            for hostgroup in zbx_hostgroup:
+                hostgroup_ids.append(self.__get_hostgroupids(authid, hostgroup)[0])
+
+        return hostgroup_ids
+
+    def get_hostgroups_by_hostname(self, authid, hostname):
         """ get hostgroup ids from hostname pattern
 
         Params:
@@ -133,7 +151,19 @@ class ZabbixApi:
 
         return hostgroup_ids
 
-    def get_macros(self, hostname):
+    def get_options(self):
+        """ get macros [key/value]
+        """
+        macros = ZabbixConfig.ZABBIX_OPTIONS
+        return macros
+
+    def get_macros(self):
+        """ get macros [key/value]
+        """
+        macros = ZabbixConfig.ZABBIX_MACRO
+        return macros
+
+    def get_macros_by_hostname(self, hostname):
         """ get macros [key/value] from hostname
         """
         group = self.__get_group(hostname)
@@ -142,7 +172,16 @@ class ZabbixApi:
         if self.__get_macro(hostname): macros.extend(self.__get_macro(hostname))
         return macros if len(macros) > 0 else None
 
-    def get_templates(self, authid, hostname):
+    def get_templates(self, authid):
+        """ get template ids
+        """
+        templates = ZabbixConfig.ZABBIX_TEMPLATE
+        template_ids = []
+        for template in templates:
+            template_ids.append(self.__get_templateids(authid, template)[0])
+        return template_ids
+
+    def get_templates_by_hostname(self, authid, hostname):
         """ get template ids from hostname pattern
         """
         group = self.__get_group(hostname)
@@ -277,26 +316,38 @@ class ZabbixApi:
                   templateid = result['templateid']))
         return templates
 
-    def __create_host(self, authid, hostname, ip, group_ids, template_ids, macros):
+    def __create_host(self, authid, hostname, ip, group_ids, template_ids, macros, options = None):
         """ register host on zabbix.
         """
         groups = map(lambda x: { "groupid": x }, group_ids)
         templates = map(lambda x: { "templateid": x }, template_ids)
+        interfaces = [
+            {
+                "type": 1,
+                "main": 1,
+                "useip": 1,
+                "ip": ip,
+                "dns": "",
+                "port": "10050"
+            }
+        ]
+        if options is not None and options.get("jmx"):
+            interfaces.append(
+                {
+                    "type": 4,
+                    "main": 1,
+                    "useip": 0,
+                    "ip": "",
+                    "dns": hostname,
+                    "port": "8085"
+                }
+            )
         data = {
             "jsonrpc": "2.0",
             "method": "host.create",
             "params": {
                 "host": hostname,
-                "interfaces": [
-                    {
-                        "type": 1,
-                        "main": 1,
-                        "useip": 1,
-                        "ip": ip,
-                        "dns": "",
-                        "port": "10050"
-                    }
-                ],
+                "interfaces": interfaces,
                 "groups": groups,
                 "templates": templates,
             },
@@ -307,6 +358,7 @@ class ZabbixApi:
         param = json.dumps(data)
         print param
         response = self.__execute_zabbix_api(param)
+        print response
         return response['result']
 
     def __update_host_status(self, authid, hostid, status):

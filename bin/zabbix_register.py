@@ -19,10 +19,11 @@ if is_exist:
     zabbix.enable_host(authid, hostid)
     hostid = zabbix.get_hostid(authid, hostname)
 else:
-    group_ids = zabbix.get_hostgroups(authid, hostname)
-    template_ids  = zabbix.get_templates(authid, hostname)
-    macros = zabbix.get_macros(hostname)
-    result = zabbix.create_host(authid, hostname, ipaddress, group_ids, template_ids, macros)
+    group_ids = zabbix.get_hostgroups(authid)
+    template_ids  = zabbix.get_templates(authid)
+    macros = zabbix.get_macros()
+    options = zabbix.get_options()
+    result = zabbix.create_host(authid, hostname, ipaddress, group_ids, template_ids, macros, options)
     print result
 
     hostid = zabbix.get_hostid(authid, hostname)
