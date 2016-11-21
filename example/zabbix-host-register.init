@@ -1,9 +1,9 @@
 #!/bin/sh
 
 # chkconfig: 2345 99 06
-# description: enable or disable zabbix host status for init.d script.
+# description: enable(create) or disable zabbix host status for init.d script.
 
-servicename='zabbix-host-controller'
+servicename='zabbix-host-register'
 lock_file="/var/lock/subsys/${servicename}"
 path_to_script=/usr/local/zabbix-host-controller/bin
 
