@@ -1,7 +1,7 @@
 [Unit]
 Description=Update Hosntame for AutoScaling
 After=network.target
-Before=rsyslog.service
+Before=rsyslog.service zabbix-agent.service
 
 [Service]
 Type=oneshot
