@@ -22,7 +22,13 @@ elif [ ${BEFORE} = ${AFTER} ]; then
   echo "Not change hostname [before: ${BEFORE}, after: ${AFTER}]"
 else
   echo "Change hostname for AutoScaling [before: ${BEFORE}, after: ${AFTER}]"
-  hostnamectl set-hostname ${AFTER}
-  [[ -f /etc/motd ]] && sed -i -e "s/${BEFORE}/${AFTER}/g" /etc/motd
+  if [ `which hostnamectl` ]; then
+    hostnamectl set-hostname ${AFTER}
+  else
+    hostname ${AFTER} && \
+      sed -i -e "s/${BEFORE}/${AFTER}/g" /etc/sysconfig/network && \
+      echo -e "\n$(ip route | grep src | awk '{ print $NF }') ${AFTER}" >> /etc/hosts && \
+      service zabbix-agent restart && service zabbix-host-register restart
+  fi
   echo "Completed update hostname"
 fi

@@ -1,0 +1,28 @@
+#!/bin/sh
+
+# chkconfig: 2345 99 06
+# description=Update Hosntame for AutoScaling for init.d script.
+
+servicename='update-hostname-ip'
+lock_file="/var/lock/subsys/${servicename}"
+
+start() {
+    sh /usr/local/zabbix-host-controller/example/update_hostname_ip.sh && \
+    touch ${lock_file} && \
+    echo "update-hostname-ip start: [OK]"
+    return 0
+}
+stop() {
+    rm -f ${lock_file} && echo "update-hostname-ip stop: [OK]"
+    return 0
+}
+
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  *) break ;;
+esac
