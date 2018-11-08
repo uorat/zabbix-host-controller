@@ -68,6 +68,8 @@ Support
 ------------------------------------------------------------
 
 * OS
-    * AmazonLinux
+    * AmazonLinux 1.x
+    * AmazonLinux 2.x
     * CentOS 6
-* Zabbix v2.4
+    * CentOS 7
+* Zabbix v2.4 ~ v3.2
